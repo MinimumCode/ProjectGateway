@@ -1,0 +1,17 @@
+{
+  "name": "gateway",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "AltusStrikeEarth",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.4",
+    "formidable": "^1.1.1",
+    "https": "^1.0.0",
+    "tls": "0.0.1"
+  }
+}
