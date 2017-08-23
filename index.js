@@ -27,9 +27,9 @@ httpsServer.listen(443, function () {
 
 /*gets local server ip*/
 var addresses = [];
-for (var interface in interfaces) {
-    for (var index in interfaces[interface]) {
-        var address = interfaces[interface][index];
+for (var interf in interfaces) {
+    for (var index in interfaces[interf]) {
+        var address = interfaces[interf][index];
         if (address.family === 'IPv4' && !address.internal) {
             addresses.push(address.address);
         }
