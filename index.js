@@ -4,12 +4,20 @@ const http = require('http');
 const https = require('https')
 const fs = require('fs')
 const os = require("os")
+
+/*Controllers*/
 const appctrl = require("./appctrl")
 const clientctrl = require("./clientctrl")
 const uploadctrl = require("./uploadctrl")
 const distctrl = require("./distctrl")
 
-/*-----------------------Initialize server------------------------*/
+
+/*
+TODO:
+    Server configurable
+*/
+
+/*Initilized server*/
 var credentials = {
     key: fs.readFileSync('./keys/rsa.private.key', 'utf8'),
     cert: fs.readFileSync('./keys/cert.pem', 'utf8')
@@ -53,8 +61,8 @@ app.get('/dist:file?', function (req, res) {
     console.log('Host ' + req.get('host') + ' is requesting for ' + req.query.file)
 
     if (appctrl.checkAuthorization(req, res))
-        distctrl.getDistFile(req,res)
-    
+        distctrl.getDistFile(req, res)
+
 })
 
 app.post('/upload:file?', function (req, res) {
@@ -62,7 +70,7 @@ app.post('/upload:file?', function (req, res) {
     /* curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: openit" -H "Archive:PollCollector.license.licpoll" -F "data=@/c/Users/fmercado/Documents/dev/openit_serverd.log" https://host:443/upload --cacert keys/cert.pem*/
 
     if (appctrl.checkAuthorization(req, res))
-        uploadctrl.uploadFile(req,res)
+        uploadctrl.uploadFile(req, res)
 
 })
 
