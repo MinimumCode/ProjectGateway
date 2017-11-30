@@ -21,25 +21,26 @@ TODO:
 var credentials = {
     key: fs.readFileSync('./keys/rsa.private.key', 'utf8'),
     cert: fs.readFileSync('./keys/cert.pem', 'utf8')
-};
+}
 
-var httpServer = http.createServer(app);
-var httpsServer = https.createServer(credentials, app);
-
-// httpServer.listen(8888, function () {
-//     console.log("Listening server " + os.hostname() + ":" + httpServer.address().port);
-// })
-
-httpsServer.listen(443, function () {
-    console.log("Listening secure server " + os.hostname() + ":" + httpsServer.address().port);
-})
-
+appctrl.generateServerHash()
 var serverip = appctrl.getServerIpAddress()
 clientctrl.init(serverip[0])
 
 /*dist mapping*/
 const distmap = require("./mappingctrl")
 distmap.init(__dirname + '/config/dist.map')
+
+var httpServer = http.createServer(app)
+var httpsServer = https.createServer(credentials, app)
+
+// httpServer.listen(8888, function () {
+//     console.log("Listening server " + os.hostname() + ":" + httpServer.address().port)
+// })
+
+httpsServer.listen(443, function () {
+    console.log("Listening secure server " + os.hostname() + ":" + httpsServer.address().port)
+})
 
 app.post('/clientinfo:?', function (req, res) {
     //curl -i -X POST  "https://mnl199win/clientinfo?host=mnl192win&type=client&jobs=Flexlogcollector,licpoll&version=8.0.0.0&os=windows_10_enterprise&patches=1321,1322,1323" --cacert keys/cert.pem
@@ -73,9 +74,3 @@ app.post('/upload:file?', function (req, res) {
         uploadctrl.uploadFile(req, res)
 
 })
-
-
-//TODO: Test is received data is valid
-function isValidData() {
-
-}

@@ -1,7 +1,26 @@
 const os = require("os");
 const fs = require('fs')
+const crypto = require('crypto')
+const AppCtrl = {
 
-module.exports = {
+    authorization: '',
+    generateServerHash: function(){
+        var server_license
+        keys = fs.readFileSync('./keys/license.dat',{encoding:'utf8'})
+        keys = keys.split('\n')
+        keys.forEach(function(key){
+            if (key.indexOf('SERVER_LICENSE') !== -1) {
+                key = key.split(':')[1].replace(/ /g,'')
+                AppCtrl.createHash(key)
+                return
+            }
+        })
+    },
+    createHash: function (key) {
+        AppCtrl.authorization = crypto.createHash('sha256')
+            .update(key, 'utf8')
+            .digest('hex')
+    },
 
     stringToMap: function (str) {
         var result = {};
@@ -11,20 +30,20 @@ module.exports = {
         })
         return result;
     },
-    checkAuthorization: function(req,res) {
-        
+    checkAuthorization: function (req, res) {
+
         authorize = false
-        if ( req.headers.authorization == null ) 
+        if (req.headers.authorization == null)
             authorize = false
-        if ( req.headers.authorization == 'openit')
+        if (req.headers.authorization == AppCtrl.authorization )
             return true
 
         if (!authorize) {
-            message = 'Transaction is not authorized host (' + req.get('host') + ')' 
+            message = 'Transaction is not authorized host (' + req.get('host') + ')'
             console.log(message)
             res.status(401).send(message)
         }
-            
+
         return false
     },
 
@@ -45,3 +64,5 @@ module.exports = {
 
 
 }
+
+module.exports = AppCtrl
