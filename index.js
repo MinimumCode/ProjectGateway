@@ -52,23 +52,16 @@ app.get('/dist:file?', function (req, res) {
 
     console.log('Host ' + req.get('host') + ' is requesting for ' + req.query.file)
 
-    if (!appctrl.checkAuthorization(req, res))
-        res.end()
-    else 
+    if (appctrl.checkAuthorization(req, res))
         distctrl.getDistFile(req,res)
     
-
-
 })
 
 app.post('/upload:file?', function (req, res) {
 
     /* curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: openit" -H "Archive:PollCollector.license.licpoll" -F "data=@/c/Users/fmercado/Documents/dev/openit_serverd.log" https://host:443/upload --cacert keys/cert.pem*/
 
-    if (!appctrl.checkAuthorization(req, res)) {
-        res.end()
-        return
-    } else 
+    if (appctrl.checkAuthorization(req, res))
         uploadctrl.uploadFile(req,res)
 
 })
