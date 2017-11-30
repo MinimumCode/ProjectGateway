@@ -9,7 +9,7 @@ const Dist = {
 
         /*TODO add special instructions for different os user etc...*/
         var dist = "./dist/" + distfile
-        if (fs.exists(dist)) {
+        if (fs.existsSync(dist)) {
             fs.readFile(dist, 'utf8', function (err, contents) {
                 if (err) throw err
                 res.write(contents)
