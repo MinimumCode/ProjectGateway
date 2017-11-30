@@ -1,0 +1,6 @@
+MAP: unix.conf
+mnl*lin
+
+
+MAP: windows.conf
+mnl*win
