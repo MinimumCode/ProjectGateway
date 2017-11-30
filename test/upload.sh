@@ -1,1 +1,1 @@
-curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: 286a3955fd86987c34e4ecea6f7de56567433d578ef34d46f086988b012c5939" -H "hash: r3rq08h38qhr83hr8329qr" -F"data=@./openit.install.server.log" https://mnl199win:443/upload --cacert cert.pem
+curl -i -X POST -H "Content-Type: multipart/form-data" -H "Authorization: 286a3955fd86987c34e4ecea6f7de56567433d578ef34d46f086988b012c5939" -H "hash: r3rq08h38qhr83hr8329qr" -F"data=@./openit.install.server.log" https://mnl199win:443/upload?host=mnl196win --cacert cert.pem

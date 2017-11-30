@@ -1,0 +1,2 @@
+curl -i -X POST  "https://mnl199win/clientinfo?host=mnl196win&type=client&jobs=Flexlogcollector,licpoll&version=8.0.0.0&os=windows_10_enterprise&patches=1321,1322,1323" --cacert cert.pem -H "Authorization: 286a3955fd86987c34e4ecea6f7de56567433d578ef34d46f086988b012c5939"
+   

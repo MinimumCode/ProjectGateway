@@ -5,6 +5,7 @@ const AppCtrl = {
 
     authorization: '',
     generateServerHash: function(){
+        console.log('Reading license file')
         var server_license
         keys = fs.readFileSync('./keys/license.dat',{encoding:'utf8'})
         keys = keys.split('\n')
@@ -17,6 +18,7 @@ const AppCtrl = {
         })
     },
     createHash: function (key) {
+        console.log('Generating secret hash')
         AppCtrl.authorization = crypto.createHash('sha256')
             .update(key, 'utf8')
             .digest('hex')
@@ -31,7 +33,7 @@ const AppCtrl = {
         return result;
     },
     checkAuthorization: function (req, res) {
-
+ 
         authorize = false
         if (req.headers.authorization == null)
             authorize = false
@@ -48,7 +50,7 @@ const AppCtrl = {
     },
 
     getServerIpAddress: function () {
-
+        console.log('Retrieving server ip address')
         var addresses = []
         var interfaces = os.networkInterfaces()
         for (var interf in interfaces) {
