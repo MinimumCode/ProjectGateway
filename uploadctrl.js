@@ -10,7 +10,7 @@ const Upload = {
 
             var oldpath = files.data.path
             var epoch = ((new Date).getTime())
-            var newpath = './uploads/archiver-' + epoch + "-" + hash_code + ".in";
+            var newpath = './uploads/'+ req.query.type + "-"+ epoch + "-" + hash_code + ".in";
             /*TODO: make sure data is valid.*/
             fs.rename(oldpath, newpath, function (err) {
                 if (err) throw err

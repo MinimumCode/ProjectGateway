@@ -44,22 +44,22 @@ httpsServer.listen(443, function () {
 
 app.post('/clientinfo:?', function (req, res) {
     //curl -i -X POST  "https://mnl199win/clientinfo?host=mnl192win&type=client&jobs=Flexlogcollector,licpoll&version=8.0.0.0&os=windows_10_enterprise&patches=1321,1322,1323" --cacert keys/cert.pem
-    console.log('Got clientinfo update request from ' + req.get('host'))
+    console.log('Got clientinfo update request from ' + req.query.host)
     if (appctrl.checkAuthorization(req, res))
         clientctrl.updateClientInfo(req)
     res.end()
 })
 
 app.get('/ping', function (req, res) {
-    console.log('Got ping request from ' + req.get('host'))
-    res.send('hello');
+    console.log('Got ping request from ' + req.query.host)
+    res.send('hello')
 })
 
 app.get('/dist:file?', function (req, res) {
 
     /*curl -G -X GET "https://host:443/dist/?file=cold.conf&user=fmercado&os=unix" --cacert keys/cert.pem*/
 
-    console.log('Host ' + req.get('host') + ' is requesting for ' + req.query.file)
+    console.log('Host ' + req.query.host + ' is requesting for ' + req.query.file)
 
     if (appctrl.checkAuthorization(req, res))
         distctrl.getDistFile(req, res)

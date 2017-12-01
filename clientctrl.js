@@ -32,7 +32,7 @@ module.exports = {
     updateClientInfo: function (req) {
 
         var client = []
-        client.hostname = req.get('host')
+        client.hostname = req.query.host
         client.os = "unknown"
         client.jobs = []
         client.patches = []
@@ -60,7 +60,7 @@ module.exports = {
                 "version": client.version,
                 "arch": client.arch,
                 "ip": client.ip,
-                "hostname": req.get('host'),
+                "hostname": client.hostname,
                 "patches": client.patches,
                 "os": client.os
             },
@@ -74,16 +74,19 @@ module.exports = {
 
         now = Math.round((new Date).getTime() / 1000)
         // this is a new client 
-        if (this.clients[req.get('host')] == null) {
-            this.clients[req.get('host')] = clientinfo
-            console.log('Got new client(' + req.get('host') + ')')
+        if (this.clients[client.hostname] == null) {
+            this.clients[client.hostname] = clientinfo
+            console.log('Got new client(' + client.hostname + ')')
             this.writeClientInfo()
         } else {
             //save cache to file
-            this.clients[req.get('host')] = clientinfo
+            this.clients[client.hostnames] = clientinfo
             diff = now - this.clients.lastupdate
-            if (diff > 60)
+            if (diff > 60) {
+                console.log('Last file update is more than 60s. Saving cache to file')
                 this.writeClientInfo()
+            }
+
         }
     },
     writeClientInfo: function () {
