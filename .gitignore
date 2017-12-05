@@ -1,7 +1,7 @@
 # Upload files
 
 *openit_client_info.json*
-*archiver*.in
+*.in
 ./uploads/*
 
 # Logs

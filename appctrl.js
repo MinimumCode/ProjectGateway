@@ -3,26 +3,27 @@ const fs = require('fs')
 const crypto = require('crypto')
 const AppCtrl = {
 
-    authorization: '',
-    generateServerHash: function(){
-        console.log('Reading license file')
-        var server_license
-        keys = fs.readFileSync('./keys/license.dat',{encoding:'utf8'})
-        keys = keys.split('\n')
-        keys.forEach(function(key){
-            if (key.indexOf('SERVER_LICENSE') !== -1) {
-                key = key.split(':')[1].replace(/ /g,'')
-                AppCtrl.createHash(key)
-                return
-            }
-        })
-    },
-    createHash: function (key) {
-        console.log('Generating secret hash')
-        AppCtrl.authorization = crypto.createHash('sha256')
-            .update(key, 'utf8')
-            .digest('hex')
-    },
+    // authorization: '',
+    // decryptkey:'',
+    // generateServerHash: function(){
+    //     AppCtrl.createHash(key)
+    // },
+    // getDecryptKey: function(){
+    //     keys = fs.readFileSync('./keys/license.dat',{encoding:'utf8'})
+    //     keys = keys.split('\n')
+    //     keys.forEach(function(key){
+    //         if (key.indexOf('SERVER_LICENSE') !== -1) {
+    //             key = key.split(':')[1].replace(/ /g,'')
+    //             return key
+    //         }
+    //     })
+    // },
+    // encryptApiKey: function (key) {
+    //     console.log('Generating secret hash')
+    //     AppCtrl.authorization = crypto.createHash('sha256')
+    //         .update(key, 'utf8')
+    //         .digest('hex')
+    // },
 
     stringToMap: function (str) {
         var result = {};
@@ -37,7 +38,7 @@ const AppCtrl = {
         authorize = false
         if (req.headers.authorization == null)
             authorize = false
-        if (req.headers.authorization == AppCtrl.authorization )
+        if (req.headers.authorization == process.env.API_KEY )
             return true
 
         if (!authorize) {

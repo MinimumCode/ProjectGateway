@@ -1,9 +1,10 @@
 const express = require('express')
 const app = express()
-const http = require('http');
+const http = require('http')
 const https = require('https')
 const fs = require('fs')
 const os = require("os")
+
 
 /*Controllers*/
 const appctrl = require("./appctrl")
@@ -19,27 +20,27 @@ TODO:
 
 /*Initilized server*/
 var credentials = {
-    key: fs.readFileSync('./keys/rsa.private.key', 'utf8'),
-    cert: fs.readFileSync('./keys/cert.pem', 'utf8')
+    key: fs.readFileSync(process.env.RSA_KEY, 'utf8'),
+    cert: fs.readFileSync(process.env.CERT_PEM, 'utf8')
 }
 
-appctrl.generateServerHash()
 var serverip = appctrl.getServerIpAddress()
 clientctrl.init(serverip[0])
 
 /*dist mapping*/
 const distmap = require("./mappingctrl")
-distmap.init(__dirname + '/config/dist.map')
+distmap.init(process.env.DIST_MAP)
 
-var httpServer = http.createServer(app)
-var httpsServer = https.createServer(credentials, app)
+var server
+if (process.env.USE_HTTPS == 'TRUE')
+    server =  https.createServer(credentials, app)
+else 
+    server = http.createServer(app)
 
-// httpServer.listen(8888, function () {
-//     console.log("Listening server " + os.hostname() + ":" + httpServer.address().port)
-// })
-
-httpsServer.listen(443, function () {
-    console.log("Listening secure server " + os.hostname() + ":" + httpsServer.address().port)
+server.listen(process.env.PORT, function () {
+    if ( process.env.USE_HTTPS)
+        console.log('Using https')
+    console.log("Listening server " + os.hostname() + ":" + server.address().port)
 })
 
 app.post('/clientinfo:?', function (req, res) {
